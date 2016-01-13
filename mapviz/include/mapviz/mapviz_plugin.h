@@ -56,6 +56,8 @@ namespace mapviz
 {
   class MapvizPlugin : public QObject
   {
+    Q_OBJECT;
+    
   public:
     virtual ~MapvizPlugin() {}
 
@@ -121,6 +123,7 @@ namespace mapviz
     void SetVisible(bool visible)
     {
       visible_ = visible;
+      Q_EMIT VisibleChanged(visible_);
     }
 
     bool GetTransform(const ros::Time& stamp, transform_util::Transform& transform)
@@ -209,6 +212,19 @@ namespace mapviz
     virtual void PrintWarning(const std::string& message) = 0;
 
     void SetIcon(IconWidget* icon) { icon_ = icon; }
+
+    /**
+     * Override this to return "true" if you want QPainter support for your
+     * plugin.
+     */
+    virtual bool SupportsPainting()
+    {
+      return false;
+    }
+
+  Q_SIGNALS:
+    void VisibleChanged(bool visible);
+    
 
   protected:
     bool initialized_;
