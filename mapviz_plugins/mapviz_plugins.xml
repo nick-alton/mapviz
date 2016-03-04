@@ -26,6 +26,9 @@
   <class name="mapviz_plugins/tf_frame" type="mapviz_plugins::TfFramePlugin" base_class_type="mapviz::MapvizPlugin">
     <description>TF frame mapviz plugin.</description>
   </class>
+  <class name="mapviz_plugins/route" type="mapviz_plugins::RoutePlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Route mapviz plugin.</description>
+  </class>
   <class name="mapviz_plugins/robot_image" type="mapviz_plugins::RobotImagePlugin" base_class_type="mapviz::MapvizPlugin">
     <description>Robot image mapviz plugin.</description>
   </class>
@@ -38,8 +41,14 @@
   <class name="mapviz_plugins/laserscan" type="mapviz_plugins::LaserScanPlugin" base_class_type="mapviz::MapvizPlugin">
     <description>LaserScan mapviz plugin.</description>
   </class>
+  <class name="mapviz_plugins/pointcloud2" type="mapviz_plugins::PointCloud2Plugin" base_class_type="mapviz::MapvizPlugin">
+    <description>PointCloud2 mapviz plugin.</description>
+  </class>
   <class name="mapviz_plugins/point_click_publisher" type="mapviz_plugins::PointClickPublisherPlugin" base_class_type="mapviz::MapvizPlugin">
     <description>Publishes a StampedPoint when a point on the map canvas is clicked.</description>
+  </class>
+  <class name="mapviz_plugins/string" type="mapviz_plugins::StringPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Displays a std_msgs/String at a fixed point on the canvas.</description>
   </class>
 </library>
 

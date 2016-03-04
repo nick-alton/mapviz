@@ -70,7 +70,17 @@ namespace mapviz
 
     virtual void Shutdown() = 0;
 
+    /**
+     * Draws on the Mapviz canvas using OpenGL commands; this will be called
+     * before Paint();
+     */
     virtual void Draw(double x, double y, double scale) = 0;
+
+    /**
+     * Draws on the Mapviz canvas using a QPainter; this is called after Draw().
+     * You only need to implement this if you're actually using a QPainter.
+     */
+    virtual void Paint(QPainter* painter, double x, double y, double scale) {};
 
     void SetUseLatestTransforms(bool value)
     {
@@ -104,6 +114,16 @@ namespace mapviz
         Transform();
 
         Draw(x, y, scale);
+      }
+    }
+    
+    void PaintPlugin(QPainter* painter, double x, double y, double scale)
+    {
+      if (visible_ && initialized_)
+      {
+        Transform();
+         
+        Paint(painter, x, y, scale);
       }
     }
 
@@ -209,6 +229,15 @@ namespace mapviz
     virtual void PrintWarning(const std::string& message) = 0;
 
     void SetIcon(IconWidget* icon) { icon_ = icon; }
+
+    /**
+     * Override this to return "true" if you want QPainter support for your
+     * plugin.
+     */
+    virtual bool SupportsPainting()
+    {
+      return false;
+    }
 
   protected:
     bool initialized_;

@@ -181,7 +181,7 @@ void Mapviz::Initialize()
       // If this Mapviz is running as a standalone application, it needs to init
       // ROS and start spinning.  If it's running as an rqt plugin, rqt will
       // take care of that.
-      ros::init(argc_, argv_, "mapviz");
+      ros::init(argc_, argv_, "mapviz", ros::init_options::AnonymousName);
 
       spin_timer_.start(30);
       connect(&spin_timer_, SIGNAL(timeout()), this, SLOT(SpinOnce()));
@@ -496,6 +496,13 @@ void Mapviz::Open(const std::string& filename)
       ui_.actionRotate_90->setChecked(rotate_90);
     }
 
+    if (swri_yaml_util::FindValue(doc, "enable_antialiasing"))
+    {
+      bool enable_antialiasing = true;
+      doc["enable_antialiasing"] >> enable_antialiasing;
+      ui_.actionEnable_Antialiasing->setChecked(enable_antialiasing);
+    }
+
     if (swri_yaml_util::FindValue(doc, "show_displays"))
     {
       bool show_displays = false;
@@ -672,6 +679,7 @@ void Mapviz::Save(const std::string& filename)
   out << YAML::Key << "target_frame" << YAML::Value << ui_.targetframe->currentText().toStdString();
   out << YAML::Key << "fix_orientation" << YAML::Value << ui_.actionFix_Orientation->isChecked();
   out << YAML::Key << "rotate_90" << YAML::Value << ui_.actionRotate_90->isChecked();
+  out << YAML::Key << "enable_antialiasing" << YAML::Value << ui_.actionEnable_Antialiasing->isChecked();
   out << YAML::Key << "show_displays" << YAML::Value << ui_.actionConfig_Dock->isChecked();
   out << YAML::Key << "show_status_bar" << YAML::Value << ui_.actionShow_Status_Bar->isChecked();
   out << YAML::Key << "show_capture_tools" << YAML::Value << ui_.actionShow_Capture_Tools->isChecked();
@@ -1032,6 +1040,11 @@ void Mapviz::ToggleFixOrientation(bool on)
 void Mapviz::ToggleRotate90(bool on)
 {
   canvas_->ToggleRotate90(on);
+}
+
+void Mapviz::ToggleEnableAntialiasing(bool on)
+{
+  canvas_->ToggleEnableAntialiasing(on);
 }
 
 void Mapviz::ToggleConfigPanel(bool on)

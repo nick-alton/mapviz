@@ -95,27 +95,21 @@ namespace mapviz_plugins
   void ImagePlugin::SetOffsetX(int offset)
   {
     offset_x_ = offset;
-    canvas_->update();
   }
 
   void ImagePlugin::SetOffsetY(int offset)
   {
     offset_y_ = offset;
-    canvas_->update();
   }
 
   void ImagePlugin::SetWidth(int width)
   {
     width_ = width;
-
-    canvas_->update();
   }
 
   void ImagePlugin::SetHeight(int height)
   {
     height_ = height;
-
-    canvas_->update();
   }
 
   void ImagePlugin::SetAnchor(QString anchor)
@@ -156,8 +150,6 @@ namespace mapviz_plugins
     {
       anchor_ = BOTTOM_RIGHT;
     }
-
-    canvas_->update();
   }
 
   void ImagePlugin::SetUnits(QString units)
@@ -170,8 +162,6 @@ namespace mapviz_plugins
     {
       units_ = PERCENT;
     }
-
-    canvas_->update();
   }
 
   void ImagePlugin::SelectTopic()
@@ -195,13 +185,14 @@ namespace mapviz_plugins
       PrintWarning("No messages received.");
 
       image_sub_.shutdown();
-      image_sub_ = node_.subscribe(topic_, 1, &ImagePlugin::imageCallback, this);
+      image_transport::ImageTransport it(node_);
+      image_sub_ = it.subscribe(topic_, 1, &ImagePlugin::imageCallback, this);
 
       ROS_INFO("Subscribing to %s", topic_.c_str());
     }
   }
 
-  void ImagePlugin::imageCallback(const sensor_msgs::ImageConstPtr image)
+  void ImagePlugin::imageCallback(const sensor_msgs::ImageConstPtr& image)
   {
     if (!has_message_)
     {
@@ -225,8 +216,6 @@ namespace mapviz_plugins
     last_height_ = 0;
 
     has_image_ = true;
-
-    canvas_->update();
   }
 
   void ImagePlugin::PrintError(const std::string& message)
@@ -390,6 +379,7 @@ namespace mapviz_plugins
       y_pos = canvas_->height() - height - y_offset;
     }
 
+    glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
     glOrtho(0, canvas_->width(), canvas_->height(), 0, -0.5f, 0.5f);
