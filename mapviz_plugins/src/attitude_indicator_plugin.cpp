@@ -32,6 +32,7 @@
 #include <cstdio>
 #include <algorithm>
 #include <vector>
+#include <sstream>
 
 // QT libraries
 #include <QDialog>
@@ -150,13 +151,11 @@ AttitudeIndicatorPlugin::~AttitudeIndicatorPlugin()
               odometry.pose.pose.orientation.w);
 
     tf::Matrix3x3 m(point_.orientation);
-    m.getRPY(roll,pitch,yaw);
-    roll=roll*(180.0/M_PI);
-    pitch=pitch*(180.0/M_PI);
-    yaw=yaw*(180.0/M_PI);
-
-  ROS_INFO("roll %f,pitch %f, yaw %f",roll,pitch,yaw);
-    canvas_->update();
+    m.getRPY(roll_,pitch_,yaw_);
+    roll_=roll_*(180.0/M_PI);
+    pitch_=pitch_*(180.0/M_PI);
+    yaw_=yaw_*(180.0/M_PI);
+    PrintAngles(roll_,pitch_,yaw_);
  }
  void AttitudeIndicatorPlugin::AttitudeCallbackImu(const sensor_msgs::Imu &Imu)
  {
@@ -173,12 +172,10 @@ AttitudeIndicatorPlugin::~AttitudeIndicatorPlugin()
 
     tf::Matrix3x3 m(point_.orientation);
     m.getRPY(roll,pitch,yaw);
-    roll=roll*(180.0/M_PI);
-    pitch=pitch*(180.0/M_PI);
-    yaw=yaw*(180.0/M_PI);
-  ROS_INFO("roll %f,pitch %f, yaw %f",roll,pitch,yaw);
-
-    canvas_->update();
+    roll_=roll_*(180.0/M_PI);
+    pitch_=pitch_*(180.0/M_PI);
+    yaw_=yaw_*(180.0/M_PI);
+    PrintAngles(roll_,pitch_,yaw_);
  }
  void AttitudeIndicatorPlugin::AttitudeCallbackPose(const geometry_msgs::Pose &pose)
  {
@@ -197,14 +194,37 @@ AttitudeIndicatorPlugin::~AttitudeIndicatorPlugin()
               pose.orientation.w);
 
     tf::Matrix3x3 m(point_.orientation);
-    m.getRPY(roll,pitch,yaw);
-    roll=roll*(180.0/M_PI);
-    pitch=pitch*(180.0/M_PI);
-    yaw=yaw*(180.0/M_PI);
+    m.getRPY(roll_,pitch_,yaw_);
+    roll_=roll_*(180.0/M_PI);
+    pitch_=pitch_*(180.0/M_PI);
+    yaw_=yaw_*(180.0/M_PI);
 
-  ROS_INFO("roll %f,pitch %f, yaw %f",roll,pitch,yaw);
-    canvas_->update();
+  PrintAngles(roll,pitch,yaw);
  }
+void AttitudeIndicatorPlugin::PrintAngles(const double& roll, const double& pitch, const double& yaw)
+{
+    QPalette p1(ui_.roll->palette());
+    p1.setColor(QPalette::Text, Qt::black);
+    QPalette p2(ui_.pitch->palette());
+    p2.setColor(QPalette::Text, Qt::black);
+    QPalette p3(ui_.yaw->palette());
+    p3.setColor(QPalette::Text, Qt::black);
+  std::ostringstream strs;
+  strs <<roll;
+  std::string str = strs.str();
+  ui_.roll->setText(str.c_str());
+  strs.str("");
+  strs <<pitch;
+  str = strs.str();
+  ui_.pitch->setText(str.c_str());
+  strs.str("");
+  strs <<yaw;
+  str = strs.str();
+  ui_.yaw->setText(str.c_str());
+
+
+}
+
 void AttitudeIndicatorPlugin::PrintError(const std::string& message)
 {
   if (message == ui_.status->text().toStdString())

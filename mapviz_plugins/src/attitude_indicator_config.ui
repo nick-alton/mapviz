@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>401</width>
-    <height>68</height>
+    <height>114</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -35,7 +35,20 @@
    <property name="verticalSpacing">
     <number>4</number>
    </property>
-   <item row="4" column="0">
+   <item row="2" column="1">
+    <widget class="QLabel" name="label_3">
+     <property name="font">
+      <font>
+       <family>Sans Serif</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Topic:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
     <widget class="QLabel" name="label_2">
      <property name="font">
       <font>
@@ -48,7 +61,29 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="1" colspan="2">
+   <item row="2" column="6">
+    <widget class="QPushButton" name="selecttopic">
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Select</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="3">
+    <widget class="QLabel" name="pitch">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>No Data</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3" colspan="4">
     <widget class="QLabel" name="status">
      <property name="font">
       <font>
@@ -67,31 +102,80 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
+   <item row="9" column="1">
+    <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <family>Sans Serif</family>
-       <pointsize>10</pointsize>
+       <pointsize>8</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Topic:</string>
+      <string> Orientation:</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="topic"/>
-   </item>
-   <item row="2" column="2">
-    <widget class="QPushButton" name="selecttopic">
-     <property name="acceptDrops">
-      <bool>false</bool>
+   <item row="9" column="2">
+    <widget class="QLabel" name="label_4">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="text">
-      <string>Select</string>
+      <string>Roll:</string>
      </property>
     </widget>
+   </item>
+   <item row="10" column="2">
+    <widget class="QLabel" name="label_8">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Pitch:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="3">
+    <widget class="QLabel" name="roll">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>No Data</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="2">
+    <widget class="QLabel" name="label_5">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Yaw:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="3">
+    <widget class="QLabel" name="yaw">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>No Data</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3" colspan="3">
+    <widget class="QLineEdit" name="topic"/>
    </item>
   </layout>
  </widget>

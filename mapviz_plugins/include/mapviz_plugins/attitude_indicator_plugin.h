@@ -77,26 +77,8 @@ class AttitudeIndicatorPlugin : public mapviz::MapvizPlugin
       tf::Quaternion orientation;
       ros::Time stamp;
     };
-  Attitude point_;
-  bool has_message_;
-  double pitch;
-  double roll;
-  double yaw;
-  std::vector<std::string> topics_;
-  AttitudeIndicatorPlugin();
-  virtual ~AttitudeIndicatorPlugin();
-
-  bool Initialize(QGLWidget* canvas);
-  void Shutdown();
-
-  void Draw(double x, double y, double scale);
-
-  void Transform() {}
-
-  void LoadConfig(const YAML::Node& node, const std::string& path);
-  void SaveConfig(YAML::Emitter& emitter, const std::string& path);
-
-  QWidget* GetConfigWidget(QWidget* parent);
+    AttitudeIndicatorPlugin();
+    virtual ~AttitudeIndicatorPlugin();
 
  protected:
   void PrintError(const std::string& message);
@@ -110,17 +92,8 @@ class AttitudeIndicatorPlugin : public mapviz::MapvizPlugin
   void timerEvent(QTimerEvent *);
 
  protected Q_SLOTS:
- //  void modeChanged();
- //  void sourceEdited();
- //  void targetEdited();
-   void SelectTopic();
-   void TopicEdited();
- //  void SetAnchor(QString anchor);
- //  void SetUnits(QString units);
- //  void SetOffsetX(int offset);
- //  void SetOffsetY(int offset);
- //  void SetWidth(int width);
- //  void SetHeight(int height);
+ void SelectTopic();
+ void TopicEdited();
 
  private:
   Ui::attitude_indicator_config ui_;
@@ -128,23 +101,30 @@ class AttitudeIndicatorPlugin : public mapviz::MapvizPlugin
   std::string topic_;
   PlaceableWindowProxy placer_;
   ros::Subscriber odometry_sub_;
-
+  void PrintAngles(const double& roll, const double& pitch, const double& yaw);
   void handleMessage(const topic_tools::ShapeShifter::ConstPtr& msg);
   void AttitudeCallbackOdom(const nav_msgs::Odometry &odometry);
   void AttitudeCallbackImu(const sensor_msgs::Imu &Imu);
   void AttitudeCallbackPose(const geometry_msgs::Pose &pose);
-  // Anchor anchor_;
-  // Units units_;
-  // int offset_x_;
-  // int offset_y_;
-  // int width_;
-  // int height_;
+  Attitude point_;
+  bool has_message_;
+  double pitch_;
+  double roll_;
+  double yaw_;
+  std::vector<std::string> topics_;
 
-  // int last_width_;
-  // int last_height_;
 
-  // std::string AnchorToString(Anchor anchor);
-  // std::string UnitsToString(Units units);
-};  // class AttitudeIndicatorPlugin
-}  // namespace mapviz_plugins
-#endif  // MAPVIZ_PLUGINS_ATTITUDE_INDICATOR_PLUGIN_H_
+  bool Initialize(QGLWidget* canvas);
+  void Shutdown();
+
+  void Draw(double x, double y, double scale);
+
+  void Transform() {}
+
+  void LoadConfig(const YAML::Node& node, const std::string& path);
+  void SaveConfig(YAML::Emitter& emitter, const std::string& path);
+
+  QWidget* GetConfigWidget(QWidget* parent);
+};
+}
+#endif
